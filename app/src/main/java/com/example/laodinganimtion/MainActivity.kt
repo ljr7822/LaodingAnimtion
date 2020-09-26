@@ -10,10 +10,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mProgress.result = ProgressView.SUCCESS
+        mProgress.result = ProgressView.FAILUEF
         // 2. 设置回调函数（谁实现给谁）
         mProgress.callBack = {
-            // 做下载任务
+            // 做下载任务--将数据返回
             downloadData()
         }
     }
@@ -25,11 +25,7 @@ class MainActivity : AppCompatActivity() {
             addUpdateListener {
                 (it.animatedValue as Float).also {value ->
                     mProgress.progress = value
-                    if (value == 1.0f){
-                        mProgress.result = ProgressView.SUCCESS
-                    }
                 }
-
             }
             start()
         }
