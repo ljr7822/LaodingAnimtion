@@ -23,6 +23,7 @@ class LoadingAnim : View {
 
     // 通过变量保存宽高
     private var mWidth = 0
+    private var mFWidth = 0f
     private var mHeight = 0
 
     // 顶部矩形的动画因子
@@ -79,13 +80,13 @@ class LoadingAnim : View {
         // 顶部长方形
         var rectTop = Rect(0, 10, rectTopAngle, 10 + mHeight)
         // 圆角矩形
-        var rectTopF = RectF(10f, 10f,10f + mWidth, 10f + mHeight)
+        var rectTopF = RectF(10f, 10f, 10f + mWidth, 10f + mHeight)
 
         // 绘制底部长方形
         //canvas?.drawRect(rectBot, mPaintBot)
         // 绘制顶部长方形
-        canvas?.drawRect(rectTop, mPaintTop)
-        canvas?.drawRoundRect(rectTopF,rx,ry,mPaintTopF)
+        //canvas?.drawRect(rectTop, mPaintTop)
+        canvas?.drawRoundRect(rectTopF, rx, ry, mPaintTopF)
     }
 
     /**
@@ -95,7 +96,7 @@ class LoadingAnim : View {
         // 判断嘴巴动画对象是否存在
         if (rectAnim == null) {
             // 不存在，创建嘴巴动画
-            rectAnim = ValueAnimator.ofInt(0, mWidth+10).apply {
+            rectAnim = ValueAnimator.ofInt(0, mWidth + 10).apply {
                 duration = 5000
                 repeatCount = ValueAnimator.INFINITE
                 addUpdateListener {
@@ -104,21 +105,20 @@ class LoadingAnim : View {
                 }
             }
         }
-        if (rectFAnim == null){
+        if (rectFAnim == null) {
             // 不存在，创建嘴巴动画
             rectFAnim = ValueAnimator.ofFloat(0f, 110f).apply {
-                duration = 5000
+                duration = 2000
                 addUpdateListener {
                     rx = it.animatedValue as Float
                     ry = it.animatedValue as Float
+                    //mFWidth = ValueAnimator.ofFloat(width+10f, 10f).animatedValue as Float
                     invalidate()
                 }
             }
+            animators.playTogether(rectAnim, rectFAnim)
         }
-        animators.playTogether(rectAnim, rectFAnim)
     }
-
-
 
     /**
      * 提供给外部启动这个动画的接口
